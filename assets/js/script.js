@@ -9,7 +9,7 @@ dayDisplay.append(dateContent);
 
 // GLOBAL VARIABLES
 var hourlyEl = document.getElementById('container');
-
+var currentHour = moment().format('H');
 
 function buildRows() {
     for( i = 0; i < 10; i++){
@@ -25,10 +25,6 @@ function buildRows() {
         eventDesc.setAttribute('class', 'row future');
         eventDesc.setAttribute('id', 'textarea' + i );
         hourlyEl.appendChild(eventDesc);
-        // eventDesc.innerHTML = "<textarea>";
-
-
-        
         // create the right column and populate with save button icon
         var saveBtn = document.createElement('button');
         saveBtn.setAttribute('class', 'row saveBtn');
@@ -36,45 +32,45 @@ function buildRows() {
         hourlyEl.appendChild(saveBtn);
         saveBtn.innerHTML = "<img src='assets/images/schedule-icon.png' width='50px' height='50px'>";
         saveBtn.addEventListener("click", function(){storeEventLocal(this.id)});
-        var currentHour = moment().format('H');
-        if( eachHour === currentHour ){
-            eventDesc.removeAttribute('class', '.future');
-            eventDesc.setAttribute('class', '.present');
-        }
     }
 }
-
 // Store descriptions in localStorage
 function storeEventLocal(btnId) {
     var textareaid = "textarea" + btnId;
     var textarea = document.getElementById(textareaid);
     localStorage.setItem(btnId, textarea.value);
 }
+// Retreive descriptions from localStorage and insert into document
 function restoreEventDesc() {
     for( i = 0; i < 10; i++ ) {
         var eventDescText = localStorage.getItem(i);
-        console.log(eventDescText);
         var textareaid = "textarea" + i;
         var textarea = document.getElementById(textareaid);
         textarea.value = eventDescText;
     }
 }
-
-// TO DO Add clear local button
-
-// WHEN I view the timeblocks for that day
-// THEN each timeblock is color coded to indicate whether it is in the past, present, or future
-// IF time block hour is before current time, change class from .future to .past
-// IF time block hour && current time change class from .future to .present
-
-
-// WHEN I click into a timeblock
-// THEN I can enter an event
-
-
-// WHEN I click the save button for that timeblock
-// THEN the text for that event is saved in local storage
+// Create interval to check time every 30 seconds
+function initializeTimeEvent() {
+    updateDescColor();
+    timerIntervalId = setInterval( updateDescColor , 30000);
+}
+// Checks the current hour against the planner hour and updates class styling
+function updateDescColor() {
+    for( i = 0; i < 10; i++ ) {
+        var textareaid = "textarea" + i;
+        var eventDesc = document.getElementById(textareaid);
+        var eachHour = i + 8;
+        if( eachHour < currentHour ){
+            eventDesc.removeAttribute('class', 'future');
+            eventDesc.setAttribute('class', 'past');
+        }else if( eachHour === currentHour ){
+            eventDesc.removeAttribute('class', 'future');
+            eventDesc.setAttribute('class', 'present');
+        }
+    } 
+}
 
 
 // EVENT LISTENERS
-document.onload = buildRows(), restoreEventDesc();
+document.onload = buildRows(), restoreEventDesc(), initializeTimeEvent();
+// TO DO Add clear local button
