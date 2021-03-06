@@ -1,16 +1,15 @@
-// Display current day and date
+// GLOBAL VARIABLES
+
 var dayDisplay = $('#currentDay');
 var todaysDate = moment().format('dddd, MMMM Do YYYY');
 var dateContent = document.createTextNode(todaysDate);
-dayDisplay.append(dateContent);
-
-// THEN I am presented with timeblocks for standard business hours
-
-
-// GLOBAL VARIABLES
 var hourlyEl = document.getElementById('container');
 var currentHour = moment().format('H');
+var clearBtn = $('.clearBtn');
 
+// FUNCTIONS
+
+// Build initial HTML rows
 function buildRows() {
     for( i = 0; i < 10; i++){
         // create the first column and populate with the hour
@@ -51,6 +50,7 @@ function restoreEventDesc() {
 }
 // Create interval to check time every 30 seconds
 function initializeTimeEvent() {
+    dayDisplay.append(dateContent);
     updateDescColor();
     timerIntervalId = setInterval( updateDescColor , 30000);
 }
@@ -69,8 +69,12 @@ function updateDescColor() {
         }
     } 
 }
-
+// Clear local storage events
+function clearLocalStorage() {
+    localStorage.clear();
+    location.reload();
+}
 
 // EVENT LISTENERS
 document.onload = buildRows(), restoreEventDesc(), initializeTimeEvent();
-// TO DO Add clear local button
+clearBtn.click(clearLocalStorage);
