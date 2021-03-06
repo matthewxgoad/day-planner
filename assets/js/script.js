@@ -78,3 +78,9 @@ function clearLocalStorage() {
 // EVENT LISTENERS
 document.onload = buildRows(), restoreEventDesc(), initializeTimeEvent();
 clearBtn.click(clearLocalStorage);
+
+/* 
+1. Don't forget to update README file
+2. Clean up indentation
+3. Add sufficient comments
+*/
