@@ -1,6 +1,6 @@
 # Day Planner
 
-![Animated image of deployed application](assets/images/placeholder.png)
+![Animated image of deployed application](assets/images/day-planner-demo.gif)
 
 [link to deployed application](http://matthewxgoad.github.io/day-planner/)
 
@@ -12,4 +12,4 @@ This application allows the user to input a description for each hour of a typic
 
 This project was completed with the help of friends, classmates, and instructors. 
 
-Special shout outs to Kurt, Chris, and Mark. LLAP
+Special shout outs to Kurt, Kat, Chris, and Mark. LLAP
